@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="km">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Milky Way School — Survey</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=DM+Sans:wght@300;400;500&family=Hanuman:wght@300;400;700&display=swap" rel="stylesheet"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --ink:#0a1f44;--accent:#2563eb;--accent-light:#dbeafe;--accent2:#38bdf8;
+      --mid:#5b7aad;--card:rgba(255,255,255,0.90);--border:rgba(37,99,235,0.18);
+      --selected-bg:#1e3a8a;--selected-text:#ffffff;--radius:14px;
+    }
+    body{
+      font-family:'DM Sans', sans-serif;
+      min-height:100vh;
+      padding:48px 16px 80px;
+
+      background-image:url("BG.jpg");
+      background-size:cover;
+      background-position:center;
+      background-repeat:no-repeat;
+    }
+    body::before{content:'';position:fixed;inset:0;
+      background:linear-gradient(160deg,rgba(10,31,68,.75) 0%,rgba(30,58,138,.62) 40%,rgba(14,44,90,.78) 100%);
+      backdrop-filter:blur(2px);z-index:0;}
+    .wrapper{position:relative;z-index:1;max-width:640px;margin:0 auto;}
+    header{text-align:center;margin-bottom:40px;animation:fadeUp .6s ease both;}
+    .school-badge{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    }
+
+    .school-badge img{   /* adjust size */
+        height:80px;
+        object-fit:contain;
+    }
+    header h1{font-family:'Playfair Display',serif;font-size:clamp(1.6rem,5vw,2.4rem);
+      line-height:1.2;color:#fff;text-shadow:0 2px 12px rgba(0,0,0,.3);}
+    .km-head{font-family:'Hanuman',serif;display:block;font-size:.82em;
+      color:rgba(255,255,255,.82);margin-top:6px;font-weight:400;}
+    header p{margin-top:10px;font-size:.92rem;color:rgba(255,255,255,.75);line-height:1.6;font-weight:300;}
+    header p .km-sub{font-family:'Hanuman',serif;display:block;font-size:.9em;margin-top:2px;opacity:.85;}
+    .progress-wrap{margin-bottom:28px;animation:fadeUp .6s .1s ease both;}
+    .progress-label{display:flex;justify-content:space-between;font-size:.8rem;
+      color:rgba(255,255,255,.7);margin-bottom:8px;}
+    .progress-bar{height:5px;background:rgba(255,255,255,.2);border-radius:99px;overflow:hidden;}
+    .progress-fill{height:100%;background:linear-gradient(90deg,#38bdf8,#60a5fa);
+      border-radius:99px;width:0%;transition:width .5s cubic-bezier(.4,0,.2,1);
+      box-shadow:0 0 8px rgba(56,189,248,.5);}
+    .question-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);
+      padding:26px 26px 22px;margin-bottom:18px;
+      box-shadow:0 4px 24px rgba(10,31,68,.18),0 1px 4px rgba(10,31,68,.1);
+      backdrop-filter:blur(12px);animation:fadeUp .5s ease both;}
+    .question-card:nth-child(1){animation-delay:.10s}
+    .question-card:nth-child(2){animation-delay:.18s}
+    .question-card:nth-child(3){animation-delay:.26s}
+    .question-card:nth-child(4){animation-delay:.34s}
+    .question-card:nth-child(5){animation-delay:.42s}
+    .q-number{font-size:.72rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;
+      color:var(--accent);margin-bottom:8px;}
+    .q-text-en{font-family:'Playfair Display',serif;font-size:1rem;line-height:1.45;
+      color:var(--ink);margin-bottom:4px;}
+    .q-text-km{font-family:'Hanuman',serif;font-size:.95rem;color:#1d4ed8;
+      margin-bottom:16px;line-height:1.55;font-weight:400;}
+    .options{display:flex;flex-direction:column;gap:10px;}
+    .option-label{display:flex;align-items:center;gap:12px;padding:11px 15px;
+      border:1.5px solid var(--border);border-radius:8px;cursor:pointer;
+      font-size:.9rem;color:var(--ink);transition:border-color .18s,background .18s,box-shadow .18s;
+      user-select:none;background:rgba(255,255,255,.65);}
+    .option-label:hover{border-color:var(--accent);background:var(--accent-light);
+      box-shadow:0 0 0 3px rgba(37,99,235,.1);}
+    .option-label input{display:none;}
+    .custom-radio{width:17px;height:17px;border:2px solid #93c5fd;border-radius:50%;
+      flex-shrink:0;display:flex;align-items:center;justify-content:center;
+      transition:border-color .18s,background .18s;}
+    .custom-radio::after{content:'';width:6px;height:6px;background:white;border-radius:50%;
+      opacity:0;transform:scale(0);transition:opacity .18s,transform .18s;}
+    .option-label:has(input:checked){background:var(--selected-bg);border-color:var(--selected-bg);color:var(--selected-text);}
+    .option-label:has(input:checked) .custom-radio{background:#38bdf8;border-color:#38bdf8;}
+    .option-label:has(input:checked) .custom-radio::after{opacity:1;transform:scale(1);}
+    .opt-en{display:block;font-size:.9rem;}
+    .opt-km{display:block;font-family:'Hanuman',serif;font-size:.82rem;opacity:.75;margin-top:1px;}
+    .option-label:has(input:checked) .opt-km{opacity:.9;}
+    .submit-wrap{text-align:center;margin-top:32px;animation:fadeUp .5s .5s ease both;}
+    .btn-submit{background:linear-gradient(135deg,#1d4ed8,#2563eb);color:white;border:none;
+      padding:15px 52px;border-radius:99px;font-family:'DM Sans',sans-serif;font-size:.95rem;
+      font-weight:500;cursor:pointer;transition:transform .15s,box-shadow .2s;
+      box-shadow:0 4px 20px rgba(37,99,235,.45);}
+    .btn-submit:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(37,99,235,.55);}
+    .btn-submit:active{transform:translateY(0);}
+    .btn-submit:disabled{opacity:.6;cursor:not-allowed;transform:none;}
+    .toast{position:fixed;bottom:32px;left:50%;transform:translateX(-50%) translateY(20px);
+      background:#1e3a8a;color:#fff;padding:12px 28px;border-radius:99px;
+      font-size:.88rem;opacity:0;transition:opacity .3s,transform .3s;pointer-events:none;
+      z-index:999;font-family:'DM Sans',sans-serif;white-space:nowrap;}
+    .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+    .success-msg{display:none;text-align:center;padding:52px 24px;
+      background:rgba(255,255,255,.92);border-radius:var(--radius);
+      border:1px solid var(--border);box-shadow:0 8px 32px rgba(10,31,68,.2);
+      backdrop-filter:blur(16px);animation:fadeUp .5s ease both;}
+    .success-msg.show{display:block;}
+    .success-icon{font-size:3rem;margin-bottom:16px;}
+    .success-msg h2{font-family:'Playfair Display',serif;font-size:1.5rem;color:var(--ink);margin-bottom:6px;}
+    .success-msg .km-success{font-family:'Hanuman',serif;display:block;font-size:.88em;color:#1d4ed8;margin-top:4px;}
+    .success-msg p{color:var(--mid);font-size:.9rem;font-weight:300;line-height:1.6;margin-top:8px;}
+    .success-msg .km-p{font-family:'Hanuman',serif;display:block;font-size:.9em;margin-top:4px;}
+    .form-body{transition:opacity .3s;}
+    .form-body.hidden{opacity:0;pointer-events:none;}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+    @media(max-width:480px){.question-card{padding:20px 16px 16px;}}
+  </style>
+</head>
+<body>
+<div class="wrapper">
+
+  <header>
+    <div class="school-badge">
+        <img src="logo.png" alt="School Logo" class="logo">
+    </div>
+    <h1>Community Feedback Survey
+      <span class="km-head">កម្រងសំណួរប្រមូលមតិ</span>
+    </h1>
+    <p>Help us improve by sharing your experience. This takes about 2 minutes.
+      <span class="km-sub">ជួយយើងកែលម្អដោយចែករំលែកបទពិសោធន៍របស់អ្នក។ ចំណាយពេលប្រហែល ២ នាទី។</span>
+    </p>
+  </header>
+
+  <div class="progress-wrap">
+    <div class="progress-label">
+      <span>Progress / វឌ្ឍនភាព</span>
+      <span id="progress-text">0 of 5 answered</span>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+  </div>
+
+  <div class="form-body" id="form-body">
+    <form id="survey-form" novalidate>
+
+      <!-- Q1 -->
+      <div class="question-card">
+        <div class="q-number">Question 01 / សំណួរ ០១</div>
+        <div class="q-text-en">What is your role?</div>
+        <div class="q-text-km">តួនាទីរបស់អ្នកគឺជាអ្វី?</div>
+        <div class="options">
+          <label class="option-label"><input type="radio" name="q1" value="Parent"/>
+            <span class="custom-radio"></span>
+            <span><span class="opt-en">Parent</span><span class="opt-km">មាតាបិតា</span></span>
+          </label>
+          <label class="option-label"><input type="radio" name="q1" value="Student"/>
+            <span class="custom-radio"></span>
+            <span><span class="opt-en">Student</span><span class="opt-km">សិស្ស</span></span>
+          </label>
+          <label class="option-label"><input type="radio" name="q1" value="Guardian"/>
+            <span class="custom-radio"></span>
+            <span><span class="opt-en">Guardian</span><span class="opt-km">អាណាព្យាបាល</span></span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Q2 -->
+      <div class="question-card">
+        <div class="q-number">Question 02 / សំណួរ ០២</div>
+        <div class="q-text-en">Which grade are you related to?</div>
+        <div class="q-text-km">អ្នកទាក់ទងនឹងថ្នាក់ណា?</div>
+        <div class="options">
+          <label class="option-label"><input type="radio" name="q2" value="Kindergarten"/>
+            <span class="custom-radio"></span>
+            <span><span class="opt-en">Kindergarten</span><span class="opt-km">មត្តេយ្យ</span></span>
+          </label>
+          <label class="option-label"><input type="radio" name="q2" value="Primary"/>
+            <span class="custom-radio"></span>
+            <span><span class="opt-en">Primary</span><span class="opt-km">បឋមសិក្សា</span></span>
+          </label>
+          <label class="option-label"><input type="radio" name="q2" value="Secondary"/>
+            <span class="custom-radio"></span>
+            <span><span class="opt-en">Secondary</span><span class="opt-km">មធ្យមសិក្សា</span></span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Q3 -->
+      <div class="question-card">
+        <div class="q-number">Question 03 / សំណួរ ០៣</div>
+        <div class="q-text-en">How satisfied are you with the quality of teaching at Milky Way School?</div>
+        <div class="q-text-km">តើអ្នកពេញចិត្តកម្រិតណាចំពោះគុណភាពបង្រៀននៅសាលាសាលាចេក្យវេ?</div>
+        <div class="options">
+          <label class="option-label"><input type="radio" name="q3" value="Very satisfied"/>
+            <span class="custom-radio"></span>
+            <span><span class="opt-en">Very satisfied</span><span class="opt-km">ពេញចិត្តខ្លាំងណាស់</span></span>
+          </label>
+          <label class="option-label"><input type="radio" name="q3" value="Satisfied"/>
+            <span class="custom-radio"></span>
+            <span><span class="opt-en">Satisfied</span><span class="opt-km">ពេញចិត្ត</span></span>
+          </label>
+          <label class="option-label"><input type="radio" name="q3" value="Neutral"/>
+            <span class="custom-radio"></span>
+            <span><span class="opt-en">Neutral</span><span class="opt-km">ព្រងើយ</span></span>
+          </label>
+          <label class="option-label"><input type="radio" name="q3" value="Dissatisfied"/>
+            <span class="custom-radio"></span>
+            <span><span class="opt-en">Dissatisfied</span><span class="opt-km">មិនពេញចិត្ត</span></span>
+          </label>
+          <label class="option-label"><input type="radio" name="q3" value="Very dissatisfied"/>
+            <span class="custom-radio"></span>
+            <span><span class="opt-en">Very dissatisfied</span><span class="opt-km">មិនពេញចិត្តខ្លាំងណាស់</span></span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Q4 -->
+      <div class="question-card">
+        <div class="q-number">Question 04 / សំណួរ ០៤</div>
+        <div class="q-text-en">Teachers explain lessons clearly and effectively.</div>
+        <div class="q-text-km">គ្រូបង្រៀនពន្យល់មេរៀនបានច្បាស់លាស់និងមានប្រសិទ្ធភាព។</div>
+        <div class="options">
+          <label class="option-label"><input type="radio" name="q4" value="Strongly agree"/>
+            <span class="custom-radio"></span>
+            <span><span class="opt-en">Strongly agree</span><span class="opt-km">យល់ព្រមយ៉ាងខ្លាំង</span></span>
+          </label>
+          <label class="option-label"><input type="radio" name="q4" value="Agree"/>
+            <span class="custom-radio"></span>
+            <span><span class="opt-en">Agree</span><span class="opt-km">យល់ព្រម</span></span>
+          </label>
+          <label class="option-label"><input type="radio" name="q4" value="Neutral"/>
+            <span class="custom-radio"></span>
+            <span><span class="opt-en">Neutral</span><span class="opt-km">ព្រងើយ</span></span>
+          </label>
+          <label class="option-label"><input type="radio" name="q4" value="Disagree"/>
+            <span class="custom-radio"></span>
+            <span><span class="opt-en">Disagree</span><span class="opt-km">មិនយល់ព្រម</span></span>
+          </label>
+          <label class="option-label"><input type="radio" name="q4" value="Strongly disagree"/>
+            <span class="custom-radio"></span>
+            <span><span class="opt-en">Strongly disagree</span><span class="opt-km">មិនយល់ព្រមយ៉ាងខ្លាំង</span></span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Q5 -->
+      <div class="question-card">
+        <div class="q-number">Question 05 / សំណួរ ០៥</div>
+        <div class="q-text-en">The school curriculum meets my expectations.</div>
+        <div class="q-text-km">កម្មវិធីសិក្សាបំពេញតាមការរំពឹងទុករបស់ខ្ញុំ។</div>
+        <div class="options">
+          <label class="option-label"><input type="radio" name="q5" value="Strongly agree"/>
+            <span class="custom-radio"></span>
+            <span><span class="opt-en">Strongly agree</span><span class="opt-km">យល់ព្រមយ៉ាងខ្លាំង</span></span>
+          </label>
+          <label class="option-label"><input type="radio" name="q5" value="Agree"/>
+            <span class="custom-radio"></span>
+            <span><span class="opt-en">Agree</span><span class="opt-km">យល់ព្រម</span></span>
+          </label>
+          <label class="option-label"><input type="radio" name="q5" value="Neutral"/>
+            <span class="custom-radio"></span>
+            <span><span class="opt-en">Neutral</span><span class="opt-km">ព្រងើយ</span></span>
+          </label>
+          <label class="option-label"><input type="radio" name="q5" value="Disagree"/>
+            <span class="custom-radio"></span>
+            <span><span class="opt-en">Disagree</span><span class="opt-km">មិនយល់ព្រម</span></span>
+          </label>
+          <label class="option-label"><input type="radio" name="q5" value="Strongly disagree"/>
+            <span class="custom-radio"></span>
+            <span><span class="opt-en">Strongly disagree</span><span class="opt-km">មិនយល់ព្រមយ៉ាងខ្លាំង</span></span>
+          </label>
+        </div>
+      </div>
+
+      <div class="submit-wrap">
+        <button type="submit" class="btn-submit" id="submit-btn">
+          Submit Feedback / បញ្ជូនមតិ →
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <div class="success-msg" id="success-msg">
+    <div class="success-icon">🌟</div>
+    <h2>Thank you for your feedback!
+      <span class="km-success">សូមអរគុណចំពោះមតិរបស់អ្នក!</span>
+    </h2>
+    <p>Your response has been saved to Google Sheets.
+      <span class="km-p">ចម្លើយរបស់អ្នកត្រូវបានរក្សាទុកក្នុង Google Sheets។</span>
+    </p>
+  </div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwbQyRc7Z8SEoCdcJP4pEkUL4a2HTZgzNXXWyDL8M-GTvtgScND-jVq5swh07heqVjg0A/exec";
+  const form = document.getElementById('survey-form');
+  const fill = document.getElementById('progress-fill');
+  const lbl  = document.getElementById('progress-text');
+  const total = 5;
+
+  function updateProgress() {
+    const ans = new Set([...form.querySelectorAll('input[type=radio]:checked')].map(i => i.name)).size;
+    lbl.textContent = ans + ' of ' + total + ' answered';
+    fill.style.width = (ans / total * 100) + '%';
+  }
+
+  function showToast(msg, duration) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), duration || 3000);
+  }
+
+  form.addEventListener('change', updateProgress);
+
+  form.addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const answered = new Set([...form.querySelectorAll('input[type=radio]:checked')].map(i => i.name)).size;
+    if (answered < total) {
+      showToast('Please answer all 5 questions. / សូមឆ្លើយសំណួរទាំង ៥។', 3000);
+      return;
+    }
+
+    const btn = document.getElementById('submit-btn');
+    btn.disabled = true;
+    btn.textContent = 'Submitting... / កំពុងបញ្ជូន...';
+
+    const payload = {};
+    form.querySelectorAll('input[type=radio]:checked').forEach(i => payload[i.name] = i.value);
+
+    try {
+      await fetch(SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(payload)
+      });
+
+      document.getElementById('form-body').classList.add('hidden');
+      setTimeout(function() {
+        document.getElementById('form-body').style.display = 'none';
+        document.getElementById('success-msg').classList.add('show');
+      }, 300);
+
+    } catch(err) {
+      btn.disabled = false;
+      btn.textContent = 'Submit Feedback / បញ្ជូនមតិ →';
+      showToast('Connection error. Please try again. / កំហុសការតភ្ជាប់។ សូមព្យាយាមម្តងទៀត។', 4000);
+    }
+  });
+</script>
+</body>
+</html>
