@@ -5,8 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Milky Way School — Survey</title>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=DM+Sans:wght@300;400;500&family=Hanuman:wght@300;400;700&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
   <style>
-    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    *,*::before,*::after{
+      font-family:'DM Sans', sans-serif;
+      box-sizing:border-box;
+      margin:0;
+      padding:0;
+    }
     :root{
       --ink:#0a1f44;--accent:#2563eb;--accent-light:#dbeafe;--accent2:#38bdf8;
       --mid:#5b7aad;--card:rgba(255,255,255,0.90);--border:rgba(37,99,235,0.18);
@@ -85,10 +91,19 @@
     .opt-km{display:block;font-family:'Hanuman',serif;font-size:.82rem;opacity:.75;margin-top:1px;}
     .option-label:has(input:checked) .opt-km{opacity:.9;}
     .submit-wrap{text-align:center;margin-top:32px;animation:fadeUp .5s .5s ease both;}
-    .btn-submit{background:linear-gradient(135deg,#1d4ed8,#2563eb);color:white;border:none;
-      padding:15px 52px;border-radius:99px;font-family:'DM Sans',sans-serif;font-size:.95rem;
-      font-weight:500;cursor:pointer;transition:transform .15s,box-shadow .2s;
-      box-shadow:0 4px 20px rgba(37,99,235,.45);}
+    .btn-submit{
+      background:linear-gradient(135deg,#1d4ed8,#2563eb);
+      color:white;
+      border:none;
+      padding:15px 52px;
+      border-radius:99px;
+      font-family:'DM Sans', sans-serif;
+      font-size:.95rem;
+      font-weight:500;
+      cursor:pointer;
+      transition:transform .15s,box-shadow .2s;
+      box-shadow:0 4px 20px rgba(37,99,235,.45);
+    }
     .btn-submit:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(37,99,235,.55);}
     .btn-submit:active{transform:translateY(0);}
     .btn-submit:disabled{opacity:.6;cursor:not-allowed;transform:none;}
@@ -118,7 +133,7 @@
 
   <header>
     <div class="school-badge">
-        <img src="./Logo.png" alt="School Logo" class="logo">
+        <img src="./Logo.webp" alt="School Logo" class="logo">
     </div>
     <h1>Community Feedback Survey
       <span class="km-head">កម្រងសំណួរប្រមូលមតិ</span>
