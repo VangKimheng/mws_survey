@@ -5,50 +5,40 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Milky Way School — Survey</title>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=DM+Sans:wght@300;400;500&family=Hanuman:wght@300;400;700&display=swap" rel="stylesheet"/>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
   <style>
-    *,*::before,*::after{
-      font-family:'DM Sans', sans-serif;
-      box-sizing:border-box;
-      margin:0;
-      padding:0;
-    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
     :root{
       --ink:#0a1f44;--accent:#2563eb;--accent-light:#dbeafe;--accent2:#38bdf8;
       --mid:#5b7aad;--card:rgba(255,255,255,0.90);--border:rgba(37,99,235,0.18);
       --selected-bg:#1e3a8a;--selected-text:#ffffff;--radius:14px;
     }
     body{
-      font-family:'DM Sans', sans-serif;
+      font-family:'DM Sans',sans-serif;
       min-height:100vh;
       padding:48px 16px 80px;
-
       background-image:url("BG.jpg");
       background-size:cover;
       background-position:center;
       background-repeat:no-repeat;
+      position:relative;
     }
     body::before{content:'';position:fixed;inset:0;
       background:linear-gradient(160deg,rgba(10,31,68,.75) 0%,rgba(30,58,138,.62) 40%,rgba(14,44,90,.78) 100%);
       backdrop-filter:blur(2px);z-index:0;}
     .wrapper{position:relative;z-index:1;max-width:640px;margin:0 auto;}
-    header{text-align:center;margin-bottom:40px;animation:fadeUp .6s ease both;}
-    .school-badge{
-    display:inline-flex;
-    align-items:center;
-    gap:8px;
-    }
 
-    .school-badge img{   /* adjust size */
-        height:80px;
-        object-fit:contain;
-    }
+    /* Header */
+    header{text-align:center;margin-bottom:40px;animation:fadeUp .6s ease both;}
+    .school-badge{display:inline-flex;align-items:center;justify-content:center;gap:8px;margin-bottom:14px;}
+    .school-badge img{height:80px;object-fit:contain;}
     header h1{font-family:'Playfair Display',serif;font-size:clamp(1.6rem,5vw,2.4rem);
       line-height:1.2;color:#fff;text-shadow:0 2px 12px rgba(0,0,0,.3);}
     .km-head{font-family:'Hanuman',serif;display:block;font-size:.82em;
       color:rgba(255,255,255,.82);margin-top:6px;font-weight:400;}
     header p{margin-top:10px;font-size:.92rem;color:rgba(255,255,255,.75);line-height:1.6;font-weight:300;}
     header p .km-sub{font-family:'Hanuman',serif;display:block;font-size:.9em;margin-top:2px;opacity:.85;}
+
+    /* Progress */
     .progress-wrap{margin-bottom:28px;animation:fadeUp .6s .1s ease both;}
     .progress-label{display:flex;justify-content:space-between;font-size:.8rem;
       color:rgba(255,255,255,.7);margin-bottom:8px;}
@@ -56,21 +46,27 @@
     .progress-fill{height:100%;background:linear-gradient(90deg,#38bdf8,#60a5fa);
       border-radius:99px;width:0%;transition:width .5s cubic-bezier(.4,0,.2,1);
       box-shadow:0 0 8px rgba(56,189,248,.5);}
+
+    /* Cards */
     .question-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);
       padding:26px 26px 22px;margin-bottom:18px;
       box-shadow:0 4px 24px rgba(10,31,68,.18),0 1px 4px rgba(10,31,68,.1);
       backdrop-filter:blur(12px);animation:fadeUp .5s ease both;}
-    .question-card:nth-child(1){animation-delay:.10s}
-    .question-card:nth-child(2){animation-delay:.18s}
-    .question-card:nth-child(3){animation-delay:.26s}
-    .question-card:nth-child(4){animation-delay:.34s}
-    .question-card:nth-child(5){animation-delay:.42s}
+    .question-card:nth-child(1){animation-delay:.08s}
+    .question-card:nth-child(2){animation-delay:.14s}
+    .question-card:nth-child(3){animation-delay:.20s}
+    .question-card:nth-child(4){animation-delay:.26s}
+    .question-card:nth-child(5){animation-delay:.32s}
+    .question-card:nth-child(6){animation-delay:.38s}
+    .question-card:nth-child(7){animation-delay:.44s}
     .q-number{font-size:.72rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;
       color:var(--accent);margin-bottom:8px;}
     .q-text-en{font-family:'Playfair Display',serif;font-size:1rem;line-height:1.45;
       color:var(--ink);margin-bottom:4px;}
     .q-text-km{font-family:'Hanuman',serif;font-size:.95rem;color:#1d4ed8;
       margin-bottom:16px;line-height:1.55;font-weight:400;}
+
+    /* Radio options */
     .options{display:flex;flex-direction:column;gap:10px;}
     .option-label{display:flex;align-items:center;gap:12px;padding:11px 15px;
       border:1.5px solid var(--border);border-radius:8px;cursor:pointer;
@@ -90,28 +86,63 @@
     .opt-en{display:block;font-size:.9rem;}
     .opt-km{display:block;font-family:'Hanuman',serif;font-size:.82rem;opacity:.75;margin-top:1px;}
     .option-label:has(input:checked) .opt-km{opacity:.9;}
-    .submit-wrap{text-align:center;margin-top:32px;animation:fadeUp .5s .5s ease both;}
-    .btn-submit{
-      background:linear-gradient(135deg,#1d4ed8,#2563eb);
-      color:white;
-      border:none;
-      padding:15px 52px;
-      border-radius:99px;
-      font-family:'DM Sans', sans-serif;
-      font-size:.95rem;
-      font-weight:500;
-      cursor:pointer;
-      transition:transform .15s,box-shadow .2s;
-      box-shadow:0 4px 20px rgba(37,99,235,.45);
+
+    /* Campus dropdown */
+    .select-wrap{position:relative;}
+    .campus-select{
+      width:100%;padding:12px 42px 12px 16px;
+      border:1.5px solid var(--border);border-radius:8px;
+      background:rgba(255,255,255,.65);color:var(--ink);
+      font-family:'DM Sans',sans-serif;font-size:.9rem;
+      appearance:none;-webkit-appearance:none;
+      cursor:pointer;outline:none;
+      transition:border-color .18s,background .18s,box-shadow .18s;
     }
+    .campus-select:hover,.campus-select:focus{
+      border-color:var(--accent);background:var(--accent-light);
+      box-shadow:0 0 0 3px rgba(37,99,235,.1);}
+    .select-arrow{position:absolute;right:14px;top:50%;transform:translateY(-50%);
+      pointer-events:none;color:var(--accent);font-size:11px;}
+
+    /* Comment textarea */
+    .optional-tag{display:inline-block;font-size:.68rem;font-weight:500;
+      letter-spacing:.08em;text-transform:uppercase;
+      background:rgba(37,99,235,.1);color:var(--accent);
+      padding:2px 8px;border-radius:99px;margin-left:8px;vertical-align:middle;}
+    .comment-textarea{
+      width:100%;min-height:115px;padding:13px 15px;
+      border:1.5px solid var(--border);border-radius:8px;
+      background:rgba(255,255,255,.65);color:var(--ink);
+      font-family:'DM Sans',sans-serif;font-size:.9rem;line-height:1.65;
+      resize:vertical;outline:none;
+      transition:border-color .18s,background .18s,box-shadow .18s;
+    }
+    .comment-textarea::placeholder{color:#8facd4;font-size:.86rem;}
+    .comment-textarea:hover,.comment-textarea:focus{
+      border-color:var(--accent);background:rgba(255,255,255,.85);
+      box-shadow:0 0 0 3px rgba(37,99,235,.1);}
+    .char-count{font-size:.75rem;color:var(--mid);text-align:right;margin-top:5px;}
+
+    /* Submit */
+    .submit-wrap{text-align:center;margin-top:32px;animation:fadeUp .5s .55s ease both;}
+    .btn-submit{
+      background:linear-gradient(135deg,#1d4ed8,#2563eb);color:white;border:none;
+      padding:15px 52px;border-radius:99px;font-family:'DM Sans',sans-serif;
+      font-size:.95rem;font-weight:500;cursor:pointer;
+      transition:transform .15s,box-shadow .2s;
+      box-shadow:0 4px 20px rgba(37,99,235,.45);}
     .btn-submit:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(37,99,235,.55);}
     .btn-submit:active{transform:translateY(0);}
     .btn-submit:disabled{opacity:.6;cursor:not-allowed;transform:none;}
+
+    /* Toast */
     .toast{position:fixed;bottom:32px;left:50%;transform:translateX(-50%) translateY(20px);
       background:#1e3a8a;color:#fff;padding:12px 28px;border-radius:99px;
       font-size:.88rem;opacity:0;transition:opacity .3s,transform .3s;pointer-events:none;
       z-index:999;font-family:'DM Sans',sans-serif;white-space:nowrap;}
     .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+    /* Success */
     .success-msg{display:none;text-align:center;padding:52px 24px;
       background:rgba(255,255,255,.92);border-radius:var(--radius);
       border:1px solid var(--border);box-shadow:0 8px 32px rgba(10,31,68,.2);
@@ -124,6 +155,7 @@
     .success-msg .km-p{font-family:'Hanuman',serif;display:block;font-size:.9em;margin-top:4px;}
     .form-body{transition:opacity .3s;}
     .form-body.hidden{opacity:0;pointer-events:none;}
+
     @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
     @media(max-width:480px){.question-card{padding:20px 16px 16px;}}
   </style>
@@ -133,7 +165,7 @@
 
   <header>
     <div class="school-badge">
-        <img src="./Logo.webp" alt="School Logo" class="logo">
+      <img src="./Logo.webp" alt="School Logo"/>
     </div>
     <h1>Community Feedback Survey
       <span class="km-head">កម្រងសំណួរប្រមូលមតិ</span>
@@ -146,7 +178,7 @@
   <div class="progress-wrap">
     <div class="progress-label">
       <span>Progress / វឌ្ឍនភាព</span>
-      <span id="progress-text">0 of 5 answered</span>
+      <span id="progress-text">0 of 6 answered</span>
     </div>
     <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
   </div>
@@ -154,9 +186,80 @@
   <div class="form-body" id="form-body">
     <form id="survey-form" novalidate>
 
-      <!-- Q1 -->
+      <!-- Q1: Campus -->
       <div class="question-card">
         <div class="q-number">Question 01 / សំណួរ ០១</div>
+        <div class="q-text-en">Which campus are you from?</div>
+        <div class="q-text-km">អ្នកមកពីសាខាមួយណា?</div>
+        <div class="select-wrap">
+          <select name="campus" id="campus" class="campus-select">
+            <option value="" disabled selected>Select your campus / ជ្រើសរើសសាខារបស់អ្នក</option>
+            <option value="Grand Beacon 1">Grand Beacon 1</option>
+            <option value="Grand Beacon 2">Grand Beacon 2</option>
+            <option value="Visionary 1">Visionary 1</option>
+            <option value="Visionary 2">Visionary 2</option>
+            <option value="Visionary 3">Visionary 3</option>
+            <option value="Visionary 4">Visionary 4</option>
+            <option value="Visionary 5">Visionary 5</option>
+            <option value="Visionary 6">Visionary 6</option>
+            <option value="Visionary 7">Visionary 7</option>
+            <option value="Visionary 8">Visionary 8</option>
+            <option value="Visionary 9">Visionary 9</option>
+            <option value="Visionary 10">Visionary 10</option>
+            <option value="Visionary 11">Visionary 11</option>
+            <option value="Visionary 12">Visionary 12</option>
+            <option value="Visionary 13">Visionary 13</option>
+            <option value="Visionary 14">Visionary 14</option>
+            <option value="Visionary 15">Visionary 15</option>
+            <option value="Visionary 16">Visionary 16</option>
+            <option value="Visionary 17">Visionary 17</option>
+            <option value="Visionary 18">Visionary 18</option>
+            <option value="Visionary 19">Visionary 19</option>
+            <option value="Visionary 20">Visionary 20</option>
+            <option value="Visionary 21">Visionary 21</option>
+            <option value="Visionary 22">Visionary 22</option>
+            <option value="Visionary 23">Visionary 23</option>
+            <option value="Visionary 24">Visionary 24</option>
+            <option value="Visionary 25">Visionary 25</option>
+            <option value="Visionary 26">Visionary 26</option>
+            <option value="Visionary 27">Visionary 27</option>
+            <option value="Visionary 28">Visionary 28</option>
+            <option value="Visionary 29">Visionary 29</option>
+            <option value="Visionary 30">Visionary 30</option>
+            <option value="Visionary 31">Visionary 31</option>
+            <option value="Visionary 32">Visionary 32</option>
+            <option value="Visionary 33">Visionary 33</option>
+            <option value="Visionary 34">Visionary 34</option>
+            <option value="Visionary 35">Visionary 35</option>
+            <option value="Visionary 36">Visionary 36</option>
+            <option value="Visionary 37">Visionary 37</option>
+            <option value="Visionary 38">Visionary 38</option>
+            <option value="Visionary 39">Visionary 39</option>
+            <option value="Visionary 40">Visionary 40</option>
+            <option value="Visionary 41">Visionary 41</option>
+            <option value="Visionary 42">Visionary 42</option>
+            <option value="Visionary 43">Visionary 43</option>
+            <option value="Visionary 44">Visionary 44</option>
+            <option value="Visionary 45">Visionary 45</option>
+            <option value="Visionary 46">Visionary 46</option>
+            <option value="Visionary 47">Visionary 47</option>
+            <option value="Visionary 48">Visionary 48</option>
+            <option value="Visionary 49">Visionary 49</option>
+            <option value="Visionary 50">Visionary 50</option>
+            <option value="Visionary 51">Visionary 51</option>
+            <option value="Visionary 52">Visionary 52</option>
+            <option value="Visionary 53">Visionary 53</option>
+            <option value="Visionary 54">Visionary 54</option>
+            <option value="Visionary 55">Visionary 55</option>
+            <option value="Visionary 56">Visionary 56</option>
+          </select>
+          <span class="select-arrow">▼</span>
+        </div>
+      </div>
+
+      <!-- Q2: Role -->
+      <div class="question-card">
+        <div class="q-number">Question 02 / សំណួរ ០២</div>
         <div class="q-text-en">What is your role?</div>
         <div class="q-text-km">តួនាទីរបស់អ្នកគឺជាអ្វី?</div>
         <div class="options">
@@ -175,9 +278,9 @@
         </div>
       </div>
 
-      <!-- Q2 -->
+      <!-- Q3: Grade -->
       <div class="question-card">
-        <div class="q-number">Question 02 / សំណួរ ០២</div>
+        <div class="q-number">Question 03 / សំណួរ ០៣</div>
         <div class="q-text-en">Which grade are you related to?</div>
         <div class="q-text-km">អ្នកទាក់ទងនឹងថ្នាក់ណា?</div>
         <div class="options">
@@ -196,11 +299,11 @@
         </div>
       </div>
 
-      <!-- Q3 -->
+      <!-- Q4: Teaching quality -->
       <div class="question-card">
-        <div class="q-number">Question 03 / សំណួរ ០៣</div>
+        <div class="q-number">Question 04 / សំណួរ ០៤</div>
         <div class="q-text-en">How satisfied are you with the quality of teaching at Milky Way School?</div>
-        <div class="q-text-km">តើអ្នកពេញចិត្តកម្រិតណាចំពោះគុណភាពបង្រៀននៅសាលាសាលាចេក្យវេ?</div>
+        <div class="q-text-km">តើអ្នកពេញចិត្តកម្រិតណាចំពោះគុណភាពបង្រៀននៅសាលា Milky Way?</div>
         <div class="options">
           <label class="option-label"><input type="radio" name="q3" value="Very satisfied"/>
             <span class="custom-radio"></span>
@@ -225,9 +328,9 @@
         </div>
       </div>
 
-      <!-- Q4 -->
+      <!-- Q5: Lesson clarity -->
       <div class="question-card">
-        <div class="q-number">Question 04 / សំណួរ ០៤</div>
+        <div class="q-number">Question 05 / សំណួរ ០៥</div>
         <div class="q-text-en">Teachers explain lessons clearly and effectively.</div>
         <div class="q-text-km">គ្រូបង្រៀនពន្យល់មេរៀនបានច្បាស់លាស់និងមានប្រសិទ្ធភាព។</div>
         <div class="options">
@@ -254,9 +357,9 @@
         </div>
       </div>
 
-      <!-- Q5 -->
+      <!-- Q6: Curriculum -->
       <div class="question-card">
-        <div class="q-number">Question 05 / សំណួរ ០៥</div>
+        <div class="q-number">Question 06 / សំណួរ ០៦</div>
         <div class="q-text-en">The school curriculum meets my expectations.</div>
         <div class="q-text-km">កម្មវិធីសិក្សាបំពេញតាមការរំពឹងទុករបស់ខ្ញុំ។</div>
         <div class="options">
@@ -283,6 +386,21 @@
         </div>
       </div>
 
+      <!-- Q7: Comment (optional) -->
+      <div class="question-card">
+        <div class="q-number">Question 07 / សំណួរ ០៧ <span class="optional-tag">Optional</span></div>
+        <div class="q-text-en">Any additional comments or suggestions?</div>
+        <div class="q-text-km">តើអ្នកមានមតិយោបល់ឬការណែនាំបន្ថែមទេ?</div>
+        <textarea
+          name="comment"
+          id="comment"
+          class="comment-textarea"
+          maxlength="1000"
+          placeholder="Write your comment here... / សរសេរមតិរបស់អ្នកនៅទីនេះ..."
+        ></textarea>
+        <div class="char-count"><span id="char-count">0</span> / 1000</div>
+      </div>
+
       <div class="submit-wrap">
         <button type="submit" class="btn-submit" id="submit-btn">
           Submit Feedback / បញ្ជូនមតិ →
@@ -306,16 +424,27 @@
 <div class="toast" id="toast"></div>
 
 <script>
-  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwbQyRc7Z8SEoCdcJP4pEkUL4a2HTZgzNXXWyDL8M-GTvtgScND-jVq5swh07heqVjg0A/exec";
-  const form = document.getElementById('survey-form');
-  const fill = document.getElementById('progress-fill');
-  const lbl  = document.getElementById('progress-text');
-  const total = 5;
+  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwcBcWKLmMTOVGurYnsVkekqhVZP7Nj46e1QrncALA1MN7t-fkoL9Cu7zB_LpWRERxZHg/exec";
+
+  const form  = document.getElementById('survey-form');
+  const fill  = document.getElementById('progress-fill');
+  const lbl   = document.getElementById('progress-text');
+  const REQUIRED = ['q1','q2','q3','q4','q5']; // radio names
+  const TOTAL_REQUIRED = 6; // campus + 5 radios
+
+  function countAnswered() {
+    let n = 0;
+    if (document.getElementById('campus').value) n++;
+    REQUIRED.forEach(name => {
+      if (form.querySelector('input[name="' + name + '"]:checked')) n++;
+    });
+    return n;
+  }
 
   function updateProgress() {
-    const ans = new Set([...form.querySelectorAll('input[type=radio]:checked')].map(i => i.name)).size;
-    lbl.textContent = ans + ' of ' + total + ' answered';
-    fill.style.width = (ans / total * 100) + '%';
+    const ans = countAnswered();
+    lbl.textContent = ans + ' of ' + TOTAL_REQUIRED + ' answered';
+    fill.style.width = (ans / TOTAL_REQUIRED * 100) + '%';
   }
 
   function showToast(msg, duration) {
@@ -325,13 +454,31 @@
     setTimeout(() => t.classList.remove('show'), duration || 3000);
   }
 
+  // Character counter for comment
+  document.getElementById('comment').addEventListener('input', function() {
+    document.getElementById('char-count').textContent = this.value.length;
+    updateProgress();
+  });
+
   form.addEventListener('change', updateProgress);
+  document.getElementById('campus').addEventListener('change', updateProgress);
 
   form.addEventListener('submit', async function(e) {
     e.preventDefault();
-    const answered = new Set([...form.querySelectorAll('input[type=radio]:checked')].map(i => i.name)).size;
-    if (answered < total) {
-      showToast('Please answer all 5 questions. / សូមឆ្លើយសំណួរទាំង ៥។', 3000);
+
+    // Validate campus
+    const campus = document.getElementById('campus').value;
+    if (!campus) {
+      showToast('Please select your campus. / សូមជ្រើសរើសវិទ្យាស្ថានរបស់អ្នក។', 3500);
+      return;
+    }
+
+    // Validate all radio questions
+    const allRadiosAnswered = REQUIRED.every(name =>
+      form.querySelector('input[name="' + name + '"]:checked')
+    );
+    if (!allRadiosAnswered) {
+      showToast('Please answer all required questions. / សូមឆ្លើយសំណួរទាំងអស់។', 3500);
       return;
     }
 
@@ -339,14 +486,22 @@
     btn.disabled = true;
     btn.textContent = 'Submitting... / កំពុងបញ្ជូន...';
 
-    const payload = {};
-    form.querySelectorAll('input[type=radio]:checked').forEach(i => payload[i.name] = i.value);
+    // Build payload — columns will appear in this order in Google Sheets
+    const payload = {
+      campus: campus,
+      q1: form.querySelector('input[name="q1"]:checked').value,
+      q2: form.querySelector('input[name="q2"]:checked').value,
+      q3: form.querySelector('input[name="q3"]:checked').value,
+      q4: form.querySelector('input[name="q4"]:checked').value,
+      q5: form.querySelector('input[name="q5"]:checked').value,
+      comment: document.getElementById('comment').value.trim()
+    };
 
     try {
       await fetch(SCRIPT_URL, {
         method: 'POST',
         mode: 'no-cors',
-        headers: {'Content-Type': 'application/json'},
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
       });
 
